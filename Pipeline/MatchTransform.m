@@ -1,5 +1,5 @@
 function MatchTransform(wkdir,corrsmodel,dataset,matcher,ist4k)
-%Tansform .corr into match.mat
+%Tansform OANet .corr into match.mat
 
 
 dataset_dir = [wkdir 'Dataset/' dataset '/'];
