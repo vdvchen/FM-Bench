@@ -1,10 +1,11 @@
-function FeatureExtraction(wkdir, dataset)
+function FeatureExtraction(wkdir, dataset,istop4k)
 % Extract and save SIFT descriptors
 disp('Extracting descriptors...');
 
 dataset_dir = [wkdir 'Dataset/' dataset '/'];
 
 feature_dir = [wkdir 'Features/' dataset '/'];
+
 if exist(feature_dir, 'dir') == 0
     mkdir(feature_dir);
 end
@@ -45,20 +46,30 @@ for idx = 1 : num_pairs
     
     keypoints_l = read_keypoints([path_l '.keypoints']);
     keypoints_r = read_keypoints([path_r '.keypoints']);
-    
+    tp4k_l=read_keypoints([path_l '_t4k.keypoints']);
+    tp4k_r=read_keypoints([path_r '_t4k.keypoints']);
+  
+    %keypoints_l(:,4)=0;
+    %keypoints_r(:,4)=0;
     % Extract and save features for l
-    [~, descriptors_l] = vl_covdet(single(I1gray), 'Frames', keypoints_l', ...
+    [~,descriptors_l] = vl_covdet(single(I1gray), 'Frames', keypoints_l', ...
         'Descriptor', 'SIFT');
-    
     write_descriptors([path_l '.descriptors'], descriptors_l');
     
     % Extract and save features for r
     [~, descriptors_r] = vl_covdet(single(I2gray), 'Frames', keypoints_r', ...
-        'Descriptor', 'SIFT');
-    
+        'Descriptor','SIFT');
     write_descriptors([path_r '.descriptors'], descriptors_r');
     
-end
+    if istop4k
+        [~,descriptors4k_l] = vl_covdet(single(I1gray), 'Frames', tp4k_l', ...
+        'Descriptor', 'SIFT');
+        [~,descriptors4k_r] = vl_covdet(single(I2gray), 'Frames', tp4k_r', ...
+        'Descriptor', 'SIFT');
+        write_descriptors([path_l '_t4k.descriptors'], descriptors4k_l');
+        write_descriptors([path_r '_t4k.descriptors'], descriptors4k_r');
+    end
 
+end
 disp('Finished.');
 end

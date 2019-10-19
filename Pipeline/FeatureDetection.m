@@ -1,4 +1,4 @@
-function FeatureDetection(wkdir, dataset)
+function FeatureDetection(wkdir, dataset,istop4k)
 % Detect and save DoG keypoints
 
 disp('Detecting keypoints...');
@@ -46,9 +46,29 @@ for idx = 1 : num_pairs
     
     keypoints_l = vl_sift(single(I1gray))';
     write_keypoints([path_l '.keypoints'], keypoints_l);
+    if size(keypoints_l,1)<=4000
+        top_4k_l=keypoints_l;
+    else
+        [N,I]=maxk(keypoints_l,4000,1);
+        I=I(:,3)';
+        top_4k_l=keypoints_l(I,:);
+    end
+    if istop4k
+        write_keypoints([path_l '_t4k.keypoints'], top_4k_l);
+    end
     
     keypoints_r = vl_sift(single(I2gray))';
     write_keypoints([path_r '.keypoints'], keypoints_r);
+    if size(keypoints_r,1)<=4000
+        top_4k_r=keypoints_r;
+    else
+        [N,I]=maxk(keypoints_r,4000,1);
+        I=I(:,3)';
+        top_4k_r=keypoints_r(I,:);
+    end
+    if istop4k
+        write_keypoints([path_r '_t4k.keypoints'], top_4k_r);
+    end
 end
 
 disp('Finished.');

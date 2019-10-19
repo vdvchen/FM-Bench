@@ -12,7 +12,7 @@ function write_keypoints(path, keypoints)
 % Copyright 2017: Johannes L. Schoenberger <jsch at inf.ethz.ch>
 
 assert(isreal(keypoints) & isfloat(keypoints));
-assert(size(keypoints, 2) == 4);
+%assert(size(keypoints, 2) == 4);
 
 fid = fopen(path, 'w');
 fwrite(fid, size(keypoints), 'int32');

@@ -11,7 +11,7 @@ X2 = f2(matches(:,2),1:2);
 
 dist_ratios = D(:,1)./D(:,2);
 
-mask = dist_ratios < 0.8;
+mask = dist_ratios < 0.85;
 X1 = X1(mask,:);
 X2 = X2(mask,:);
 

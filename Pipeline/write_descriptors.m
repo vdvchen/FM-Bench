@@ -11,7 +11,7 @@ function write_descriptors(path, descriptors)
 %
 % Copyright 2017: Johannes L. Schoenberger <jsch at inf.ethz.ch>
 
-assert(isreal(descriptors) & isfloat(descriptors));
+%assert(isreal(descriptors) & isfloat(descriptors));
 
 fid = fopen(path, 'w');
 fwrite(fid, size(descriptors), 'int32');
