@@ -1,7 +1,10 @@
-function [X1, X2] = match_descriptors(f1, f2, d1, d2)
-
+function [X1, X2] = match_descriptors(f1, f2, d1, d2,method)
+%method can be 'ratio' or 'mutual'
+assert(strcmp(method,'ratio')|strcmp(method,'mutual') );
 [idxs12, D] = knnsearch(d2, d1, 'K', 2, 'NSMethod', 'exhaustive');
-
+if strcmp(method,'mutual')
+    [idxs11, D2] = knnsearch(d1, d2, 'K', 2, 'NSMethod', 'exhaustive');
+end
 idx1 = 1:size(d1, 1);
 idx2 = idxs12(:,1);
 
@@ -11,7 +14,11 @@ X2 = f2(matches(:,2),1:2);
 
 dist_ratios = D(:,1)./D(:,2);
 
-mask = dist_ratios < 0.85;
+mask = dist_ratios < 0.8;
+if strcmp(method,'mutual')
+    mask= idxs11(idx2,1)==idx1';
+end
+
 X1 = X1(mask,:);
 X2 = X2(mask,:);
 

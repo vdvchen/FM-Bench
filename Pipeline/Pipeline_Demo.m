@@ -19,9 +19,9 @@ for s = 1 : length(Datasets)
     %An example for SIFT descriptor
     %PatchExtraction(wkdir,dataset,16);
     %MatchTransform(wkdir,'Corrs',dataset,matcher,false);
-    d2transform(wkdir,dataset);
+    %d2transform(wkdir,dataset);
     % An example for exhaustive nearest neighbor matching with ratio test
-    FeatureMatching(wkdir, dataset, matcher);
+    FeatureMatching(wkdir, dataset, matcher,'ratio');
     % An example for RANSAC based FM estimation
     GeometryEstimation(wkdir, dataset, matcher, estimator);
     
